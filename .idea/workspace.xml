@@ -20,15 +20,12 @@
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug-Coverage" ENABLED="true" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff0cf649-afd2-4a5b-81fc-0f6a7d28c2cc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/work-with-text.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/work-with-text.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tnine" beforeDir="false" afterPath="$PROJECT_DIR$/tnine" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tnine.c" beforeDir="false" afterPath="$PROJECT_DIR$/tnine.c" afterDir="false" />
     </list>
@@ -157,23 +154,33 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/dzeniks/Projects/work-with-text/tnine.c",
+    "last_opened_file_path": "/home/dzeniks/Projects/work-with-text",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.qodana",
+    "settings.editor.selected.configurable": "dynamic.analysis.tools.valgrind",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager" selected="C/C++ File.tnine.c">
-    <configuration name="work_with_text" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="&lt;a.txt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="work_with_text" TARGET_NAME="work_with_text" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="work_with_text" RUN_TARGET_NAME="work_with_text">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tnine.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" nameIsGenerated="true" REDIRECT_INPUT="true" REDIRECT_INPUT_PATH="$PROJECT_DIR$/a.txt" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="work_with_text" TARGET_NAME="tnine.c" CONFIG_NAME="tnine.c">
+    <configuration name="work_with_text" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="873" REDIRECT_INPUT="true" REDIRECT_INPUT_PATH="$PROJECT_DIR$/d.txt" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="work_with_text" TARGET_NAME="work_with_text" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="work_with_text" RUN_TARGET_NAME="work_with_text">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tnine.c" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" REDIRECT_INPUT="true" REDIRECT_INPUT_PATH="$PROJECT_DIR$/d.txt" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="work_with_text" TARGET_NAME="tnine.c" CONFIG_NAME="tnine.c">
       <option name="sourceFile" value="$PROJECT_DIR$/tnine.c" />
       <method v="2">
         <option name="com.jetbrains.cidr.cpp.runfile.CppFileBuildBeforeRunTaskProvider$BasicBuildBeforeRunTask" enabled="true" />
@@ -193,7 +200,9 @@
       <option name="presentableId" value="Default" />
       <updated>1728811390442</updated>
       <workItem from="1728811392197" duration="16421000" />
-      <workItem from="1728833303924" duration="9320000" />
+      <workItem from="1728833303924" duration="13492000" />
+      <workItem from="1728899794235" duration="644000" />
+      <workItem from="1728900657638" duration="3352000" />
     </task>
     <servers />
   </component>
@@ -208,5 +217,8 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="../../../Projects/work-with-text/cmake-build-debug-coverage" NAME="work_with_text Coverage Results" MODIFIED="1728901159587" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="gcov/llvm" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
