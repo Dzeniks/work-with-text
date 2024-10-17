@@ -281,7 +281,7 @@ int main(int argc, char *argv[]) {
 
     for (int pb_idx = 0; pb_idx < *phonebook.size; ++pb_idx) {
         if (matches[pb_idx] == 1) {
-            printf("Name %s, Phone %s\n", get_name(phonebook, pb_idx), get_phone(phonebook, pb_idx));
+            printf("%s, %s\n", get_name(phonebook, pb_idx), get_phone(phonebook, pb_idx));
         }
     }
     return 0;
