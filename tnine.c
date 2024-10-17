@@ -41,9 +41,13 @@ void decode_number(char num, char *decoded_chars) {
 
 char to_lower(char character) {
     if ('A' <= character && character <= 'Z') {
-        character -= 32;
+        character += 32;
     }
     return character;
+}
+
+int is_digit(char digit) {
+    return ('0' <= digit && digit <= '9');
 }
 
 struct Phonebook {
@@ -62,9 +66,9 @@ int add_contact(struct Phonebook phonebook, char name[], char number[]) {
         fprintf(stderr, "Missing number for contact\n");
         return 1;
     }
-    char digit;
-    for (int i = 0; (digit = number[i]) != '\0'; ++i) {
-        if ('0' <= digit && digit <= '9') {
+    char char_digit;
+    for (int i = 0; (char_digit = number[i]) != '\0'; ++i) {
+        if (!is_digit(char_digit)) {
             fprintf(stderr, "In the number of contact was found unsupported character\n");
             return 1;
         }
@@ -129,7 +133,7 @@ int extract_phonebook_from_stdin(struct Phonebook phonebook) {
                 strcpy(phone_buffer, line_buffer);
                 int error = add_contact(phonebook, name_buffer, phone_buffer);
                 if (error) {
-                    fprintf(stderr, "Incorrect format of input data\n");
+                    fprintf(stderr, "Incorrect format of input data on line: %d\n", line_count);
                     return -1;
                 }
                 strcpy(name_buffer, "");
@@ -244,15 +248,12 @@ void search_names(struct Phonebook phonebook, char *entered_number, int *find_ma
 }
 
 int main(int argc, char *argv[]) {
-    // TODO: Remove clock
-    clock_t start = clock();
-
     // Error flag
     int raise_error;
 
-    char *entered_number = NULL;
+    char *entered_search_number = NULL;
     if (1 < argc) {
-        entered_number = argv[1];
+        entered_search_number = argv[1];
     }
 
     char names[MAX_CONTACTS * MAX_ROW_SIZE];
@@ -266,11 +267,11 @@ int main(int argc, char *argv[]) {
 
     // Go through phonebook numbers
     int find_match_numbers[MAX_CONTACTS];
-    search_numbers(phonebook, entered_number, find_match_numbers);
+    search_numbers(phonebook, entered_search_number, find_match_numbers);
 
     // Go through phonebook names
     int find_match_names[MAX_CONTACTS];
-    search_names(phonebook, entered_number, find_match_names);
+    search_names(phonebook, entered_search_number, find_match_names);
 
     // Union of matches
     int matches[MAX_CONTACTS];
@@ -283,11 +284,5 @@ int main(int argc, char *argv[]) {
             printf("Name %s, Phone %s\n", get_name(phonebook, pb_idx), get_phone(phonebook, pb_idx));
         }
     }
-
-    // TODO: Remove clock
-    clock_t end = clock();
-    double cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Time taken: %f seconds\n", cpu_time_used);
-
     return 0;
 }
