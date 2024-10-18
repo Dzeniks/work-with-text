@@ -116,7 +116,7 @@ char *get_phone(struct Phonebook phonebook, int idx) {
 }
 
 void name_to_nums(struct Phonebook phonebook, int idx, char *str_out) {
-    char *name = get_name(phonebook,idx);
+    char *name = get_name(phonebook, idx);
     strcpy(str_out, name);
     encode_str(str_out);
 }
@@ -129,13 +129,10 @@ void print_phonebook(struct Phonebook phonebook) {
 
 int search_in_str(const char *str, const char *searched_str) {
     if (searched_str == NULL) {
-        return 1;
+        return 0;
     }
-    char *ptr = (char *)str;
-    while ((ptr = strstr(ptr, searched_str)) != NULL) {
-        if (ptr != NULL) {
-            return 1;
-        }
+    if ((strstr(str, searched_str)) != NULL) {
+        return 1;
     }
     return 0;
 }
@@ -189,7 +186,8 @@ int extract_phonebook_from_stdin(struct Phonebook phonebook) {
     }
 }
 
-int search_str_array(struct Phonebook phonebook, char *str, const char *searched_str, int *find_match, void (cpy_str)(struct Phonebook, int, char*)) {
+int search_str_array(struct Phonebook phonebook, char *str, const char *searched_str, int *find_match,
+                     void (cpy_str)(struct Phonebook, int, char *)) {
     // Return match size and fill matches in find_match
     int match_count = 0;
     for (int entry_idx = 0; entry_idx < *phonebook.size; ++entry_idx) {
@@ -251,7 +249,7 @@ int main(int argc, char *argv[]) {
 
     for (int pb_idx = 0; pb_idx < *phonebook.size; ++pb_idx) {
         if (matches[pb_idx] == 1) {
-        printf("%s, %s\n", get_name(phonebook, pb_idx), get_phone(phonebook, pb_idx));
+            printf("%s, %s\n", get_name(phonebook, pb_idx), get_phone(phonebook, pb_idx));
         }
     }
     return 0;
