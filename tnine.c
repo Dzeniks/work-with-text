@@ -128,12 +128,13 @@ void get_phone_cpy(struct Phonebook phonebook, int idx, char *str_out) {
     strcpy(str_out, get_phone(phonebook, idx));
 }
 
-void name_to_nums(struct Phonebook phonebook, int idx, char *str_out) {
+void name_to_nums_cpy(struct Phonebook phonebook, int idx, char *str_out) {
     char *name = get_name(phonebook, idx);
     strcpy(str_out, name);
     encode_str(str_out);
 }
 
+// Search substring in string
 int search_str_in_str(const char *str, const char *searched_str) {
     if (searched_str == NULL) {
         return 0;
@@ -144,7 +145,8 @@ int search_str_in_str(const char *str, const char *searched_str) {
     return 0;
 }
 
-void search_char_in_str(const char *str, const char *searched_str, int expected_size, int cur_size, int *found) {
+// Search chars of wanted string in order, recursively in provided str
+void search_chars_in_str(const char *str, const char *searched_str, int expected_size, int cur_size, int *found) {
     char c = searched_str[cur_size];
     char *ptr = (strchr(str, c));
 
@@ -156,14 +158,13 @@ void search_char_in_str(const char *str, const char *searched_str, int expected_
         // Move + 1 to create new search string without found char
         ptr++;
         int new_size = cur_size + 1;
-        search_char_in_str(ptr, searched_str, expected_size, new_size, found);
+        search_chars_in_str(ptr, searched_str, expected_size, new_size, found);
 
     }
 }
 
-
+// Extract output from stdin and return if raise error or end successfully
 int extract_phonebook_from_stdin(struct Phonebook phonebook) {
-    // Extract output from stdin and return if raise error or end successfully
     char line_buffer[MAX_ROW_SIZE];
     char name_buffer[MAX_ROW_SIZE];
     char phone_buffer[MAX_ROW_SIZE];
@@ -211,27 +212,29 @@ int extract_phonebook_from_stdin(struct Phonebook phonebook) {
     }
 }
 
-int search_str_array(struct Phonebook phonebook, char *str, const char *searched_str, int *find_match,
+// Search in phonebook using copied string from function and
+// find_match: an array of int's that correspond to the indexes of the objects in the phonebook
+int search_str(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str, int *find_match,
                      void (cpy_str)(struct Phonebook, int, char *)) {
     // Return match size and fill matches in find_match
     int match_count = 0;
     for (int entry_idx = 0; entry_idx < *phonebook.size; ++entry_idx) {
-        cpy_str(phonebook, entry_idx, str);
-        int found = search_str_in_str(str, searched_str);
+        cpy_str(phonebook, entry_idx, temp_wanted_str);
+        int found = search_str_in_str(temp_wanted_str, searched_str);
         find_match[entry_idx] = found;
         match_count += found;
     }
     return match_count;
 }
 
-
-int search_str_array_with_break(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str, int *find_match,
+// Search in phonebook using copied string from function with breaks between wanted chars
+// find_match: an array of int's that correspond to the indexes of the objects in the phonebook
+int search_str_break(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str, int *find_match,
                      void (cpy_str)(struct Phonebook, int, char *)) {
-    // Return match size and fill matches in find_match
     int match_count = 0;
     for (int entry_idx = 0; entry_idx < *phonebook.size; ++entry_idx) {
         cpy_str(phonebook, entry_idx, temp_wanted_str);
-        search_char_in_str(temp_wanted_str, searched_str, (int)strlen(searched_str), 0, &find_match[entry_idx]);
+        search_chars_in_str(temp_wanted_str, searched_str, (int)strlen(searched_str), 0, &find_match[entry_idx]);
         match_count += find_match[entry_idx];
     }
     return match_count;
@@ -239,17 +242,17 @@ int search_str_array_with_break(struct Phonebook phonebook, char *temp_wanted_st
 
 int search_numbers(const struct Phonebook phonebook, const char *searched_nums, int find_match_numbers[]) {
     char temp_num[MAX_ROW_SIZE];
-    return search_str_array(phonebook, temp_num, searched_nums, find_match_numbers, get_phone_cpy);
+    return search_str(phonebook, temp_num, searched_nums, find_match_numbers, get_phone_cpy);
 }
 
 int search_names(struct Phonebook phonebook, const char *searched_nums, int *find_match_names) {
     char temp_name[MAX_ROW_SIZE];
-    return search_str_array(phonebook, temp_name, searched_nums, find_match_names, name_to_nums);
+    return search_str(phonebook, temp_name, searched_nums, find_match_names, name_to_nums_cpy);
 }
 
 int search_names_break(const struct Phonebook phonebook, const char *searched_nums, int *find_match_names) {
     char temp_name[MAX_ROW_SIZE];
-    return search_str_array_with_break(phonebook, temp_name, searched_nums, find_match_names, name_to_nums);
+    return search_str_break(phonebook, temp_name, searched_nums, find_match_names, name_to_nums_cpy);
 }
 
 
