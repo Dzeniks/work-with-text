@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_CONTACTS 27000
+#define MAX_CONTACTS 1000
 #define MAX_ROW_SIZE 101
 #define MAX_ENCODE_SIZE 6
 
