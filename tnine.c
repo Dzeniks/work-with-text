@@ -29,11 +29,14 @@ int main(int argc, char *argv[]) {
     if (argc == 2) {
         entered_search_number = argv[1];
     }
-    if (argc == 3 && strcmp(argv[1], "-s") == 0) {
+    else if (argc == 3 && strcmp(argv[1], "-s") == 0) {
         search_with_break = 1;
         entered_search_number = argv[2];
     }
-
+    else if (argc > 3) {
+        fprintf(stderr, "Program have to much arguments\n");
+        return 1;
+    }
 
     // Extract stdin to structure
     char names[MAX_CONTACTS * MAX_ROW_SIZE];
