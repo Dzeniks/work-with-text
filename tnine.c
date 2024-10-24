@@ -19,6 +19,7 @@ char *get_name(struct Phonebook phonebook, int idx);
 char *get_phone(struct Phonebook phonebook, int idx);
 int is_number(const char *str);
 
+
 int main(int argc, char *argv[]) {
     // Error flag
     int raise_error;
@@ -28,20 +29,15 @@ int main(int argc, char *argv[]) {
     int search_with_break = 0;
     if (argc == 2) {
         entered_search_number = argv[1];
-    }
-    else if (argc == 3 && strcmp(argv[1], "-s") == 0) {
+    } else if (argc == 3) {
+        if (strcmp(argv[1], "-s") != 0) {
+            fprintf(stderr, "Program argument is not expected\n");
+            return 1;
+        }
         search_with_break = 1;
         entered_search_number = argv[2];
-    }
-    else if (argc > 3) {
+    } else if (argc > 3) {
         fprintf(stderr, "Program have to much arguments\n");
-        return 1;
-    }
-
-    // Check if argument is number
-    raise_error = !is_number(entered_search_number);
-    if (raise_error) {
-        fprintf(stderr, "Program search number contains unsupported characters\n");
         return 1;
     }
 
@@ -52,6 +48,19 @@ int main(int argc, char *argv[]) {
     struct Phonebook phonebook = {names, phones, &size};
     raise_error = extract_phonebook_from_stdin(phonebook);
     if (raise_error) { return 1; }
+
+    // Print all result if we have search number == NULL
+    if (entered_search_number == NULL) {
+        for (int pb_idx = 0; pb_idx < *phonebook.size; ++pb_idx) {
+            printf("%s, %s\n", get_name(phonebook, pb_idx), get_phone(phonebook, pb_idx));
+        }
+        return 0;
+    }
+    // Check if it is number
+    if (!is_number(entered_search_number)) {
+        fprintf(stderr, "Search number contains unsupported characters\n");
+        return 1;
+    }
 
     // Search in phonebook numbers
     int find_match_numbers[MAX_CONTACTS];
@@ -151,6 +160,9 @@ int is_digit(char digit) {
 }
 
 int is_number(const char *str) {
+    if (str == NULL) {
+        return 0;
+    }
     char char_digit;
     for (int i = 0; (char_digit = str[i]) != '\0'; ++i) {
         if (!is_digit(char_digit)) {
@@ -222,6 +234,9 @@ int search_str_in_str(const char *str, const char *searched_str) {
 
 // Search chars of wanted string in order, recursively in provided str
 void search_chars_in_str(const char *str, const char *searched_str, int expected_size, int cur_size, int *found) {
+    if (searched_str == NULL) {
+        return;
+    }
     char c = searched_str[cur_size];
     char *ptr = (strchr(str, c));
 
@@ -234,7 +249,6 @@ void search_chars_in_str(const char *str, const char *searched_str, int expected
         ptr++;
         int new_size = cur_size + 1;
         search_chars_in_str(ptr, searched_str, expected_size, new_size, found);
-
     }
 }
 
@@ -255,7 +269,7 @@ int extract_phonebook_from_stdin(struct Phonebook phonebook) {
             fprintf(stderr, "To much long row on input\n");
             return 1;
         }
-        char stdin_char = (char)getchar();
+        char stdin_char = (char) getchar();
         stdin_char = to_lower(stdin_char);
         if (stdin_char == '\n' || stdin_char == EOF) {
             line_buffer[buffer_size] = '\0';
@@ -289,8 +303,9 @@ int extract_phonebook_from_stdin(struct Phonebook phonebook) {
 
 // Search in phonebook using copied string from function and
 // find_match: an array of int's that correspond to the indexes of the objects in the phonebook
-int search_str_in_phonebook(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str, int *find_match,
-                     void (cpy_str)(struct Phonebook, int, char *)) {
+int search_str_in_phonebook(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str,
+                            int *find_match,
+                            void (cpy_str)(struct Phonebook, int, char *)) {
     // Return match size and fill matches in find_match
     int match_count = 0;
     for (int entry_idx = 0; entry_idx < *phonebook.size; ++entry_idx) {
@@ -304,12 +319,14 @@ int search_str_in_phonebook(struct Phonebook phonebook, char *temp_wanted_str, c
 
 // Search in phonebook using copied string from function with breaks between wanted chars
 // find_match: an array of int's that correspond to the indexes of the objects in the phonebook
-int search_str_in_break_phonebook(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str, int *find_match,
-                     void (cpy_str)(struct Phonebook, int, char *)) {
+int search_str_in_break_phonebook(struct Phonebook phonebook, char *temp_wanted_str, const char *searched_str,
+                                  int *find_match,
+                                  void (cpy_str)(struct Phonebook, int, char *)) {
     int match_count = 0;
     for (int entry_idx = 0; entry_idx < *phonebook.size; ++entry_idx) {
         cpy_str(phonebook, entry_idx, temp_wanted_str);
-        search_chars_in_str(temp_wanted_str, searched_str, (int)strlen(searched_str), 0, &find_match[entry_idx]);
+        search_chars_in_str(temp_wanted_str, searched_str, (int) strlen(searched_str), 0,
+            &find_match[entry_idx]);
         match_count += find_match[entry_idx];
     }
     return match_count;
