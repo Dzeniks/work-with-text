@@ -17,7 +17,7 @@ int search_names(struct Phonebook phonebook, const char *searched_nums, int *fin
 int search_names_break(struct Phonebook phonebook, const char *searched_nums, int *find_match_names);
 char *get_name(struct Phonebook phonebook, int idx);
 char *get_phone(struct Phonebook phonebook, int idx);
-
+int is_number(const char *str);
 
 int main(int argc, char *argv[]) {
     // Error flag
@@ -35,6 +35,13 @@ int main(int argc, char *argv[]) {
     }
     else if (argc > 3) {
         fprintf(stderr, "Program have to much arguments\n");
+        return 1;
+    }
+
+    // Check if argument is number
+    raise_error = !is_number(entered_search_number);
+    if (raise_error) {
+        fprintf(stderr, "Program search number contains unsupported characters\n");
         return 1;
     }
 
